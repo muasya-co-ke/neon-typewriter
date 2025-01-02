@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Neon Typewriter Effect</title>
+  <style>
+    body {
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Courier New', Courier, monospace;
+      overflow: hidden;
+    }
+
+    .typewriter-container {
+      position: relative;
+    }
+
+    .typewriter {
+      font-size: 3rem;
+      color: #fff;
+      text-shadow: 
+        0 0 5px #0ff,
+        0 0 10px #0ff,
+        0 0 20px #0ff,
+        0 0 30px #0ff,
+        0 0 40px #0ff,
+        0 0 50px #0ff,
+        0 0 60px #0ff;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 4px solid #0ff;
+      width: fit-content;
+      animation: glow 1.5s infinite alternate;
+    }
+
+    @keyframes glow {
+      0% {
+        text-shadow: 
+          0 0 5px #0ff,
+          0 0 10px #0ff,
+          0 0 20px #0ff,
+          0 0 30px #0ff,
+          0 0 40px #0ff,
+          0 0 50px #0ff,
+          0 0 60px #0ff;
+      }
+      100% {
+        text-shadow: 
+          0 0 10px #ff0,
+          0 0 20px #ff0,
+          0 0 30px #ff0,
+          0 0 40px #ff0,
+          0 0 50px #ff0,
+          0 0 60px #ff0,
+          0 0 70px #ff0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="typewriter-container">
+    <div class="typewriter"></div>
+  </div>
+
+  <script>
+    const phrases = ["Happy Coding", "https://github.com/muasya-victor"];
+    const typewriterElement = document.querySelector('.typewriter');
+    let index = 0;
+
+    function typeText() {
+      const text = phrases[index];
+      typewriterElement.textContent = '';
+      let i = 0;
+
+      const typeInterval = setInterval(() => {
+        typewriterElement.textContent = text.slice(0, i + 1);
+        i++;
+        if (i === text.length) {
+          clearInterval(typeInterval);
+          setTimeout(() => {
+            eraseText(text);
+          }, 1000); // Wait before erasing
+        }
+      }, 100);
+    }
+
+    function eraseText(text) {
+      let i = text.length;
+      const eraseInterval = setInterval(() => {
+        typewriterElement.textContent = text.slice(0, i - 1);
+        i--;
+        if (i === 0) {
+          clearInterval(eraseInterval);
+          index = (index + 1) % phrases.length; // Loop to next phrase
+          setTimeout(() => {
+            typeText();
+          }, 500); // Wait before typing the next phrase
+        }
+      }, 50);
+    }
+
+    typeText(); // Start the typewriter effect
+  </script>
+</body>
+</html>
